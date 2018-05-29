@@ -1,13 +1,5 @@
 # ofr-metalsmith-testing
 
-## Supported Resource Types
-
-| Name | Resource Type | Description | Build Details |
-| --- | --- | --- | --- |
-| Undefined | n/a | This applies to any file that does not specify a type or does not specify a valid type. | `pageOutputPath` and `pageURLPath` are not set. If unset, `contentOutputPath` is set to source path (after overrides). File contents are rendered to `contentOutputPath` without modification unless `noOutput` evaluates to `true`. |
-| Page | `page` | A simple, static page on the site. Not recommended for pretty much anything. | `contentOutputPath` is not set. If unset, `pageURLPath` is set to the file's path with the last file extension removed (if there is one to remove). If unset, `pageOutputPath` is set to `pageURLPath` followed by `.html`. The contents are rendered with nunjucks to `pageOutputPath`. |
-| Document | A page of hierarchically organized content sections. | `contentOutputPath` is not set. If unset, `pageURLPath` is set to the file's path with the last file extension removed (if there is one to remove). If unset, `pageOutputPath` is set to `pageURLPath` followed by `.html`. The contents are rendered with nunjucks to `pageOutputPath`. |
-
 ## Build Process
 
 | Build Step | Description |
@@ -18,3 +10,13 @@
 | File Overrides | Iterate through the files in bundle order. If the file specifes a `override` key with a path that is within a bundle that has already been iterated through, set `files[path]` to the file with an additional `originalPath` value and an `overriden` array containing the overriden versions of the files in most original-first (lastest to be overriden-last) order.
 | Output Paths |  |
 | Render |  |
+
+## Supported Resource Types
+
+| Name | Resource Type | Description | Build Details |
+| --- | --- | --- | --- |
+| Undefined | `undefined` | This is the type given to any file that does not specify a type or does not specify a valid type. | `pageOutputPath` and `pageURLPath` are not set. If unset, `contentOutputPath` is set to source path (after overrides). File contents are rendered to `contentOutputPath` without modification unless `noOutput` evaluates to `true`. |
+| Page | `page` | A simple, static page on the site. Not recommended for pretty much anything except some stuff in the `core` bundle. | `contentOutputPath` is not set. If unset, `pageURLPath` is set to the file's path with the last file extension removed (if there is one to remove). If unset, `pageOutputPath` is set to `pageURLPath` followed by `.html`. The contents are rendered with nunjucks to `pageOutputPath`. |
+| Document | A page of hierarchically organized content sections. | `contentOutputPath` is not set. If unset, `pageURLPath` is set to the file's path with the last file extension removed (if there is one to remove). If unset, `pageOutputPath` is set to `pageURLPath` followed by `.html`. The contents are rendered with nunjucks to `pageOutputPath`. |
+| Image | `image` | An image, with an accompanying page to display it and give information about it. | If unset, `contentOutputPath` is set to the file's path. If unset, `pageURLPath` is set to the file's path with the last file extension removed (if there is one to remove). If unset, `pageOutputPath` is set to `pageURLPath` followed by `.html`. File contents are rendered to `contentOutputPath` without modification and `core/image.njk` is rendered to `pageOutputPath`. |
+| Video | `video` | A video, with an accompanying page to display it and give information about it. | If unset, `contentOutputPath` is set to the file's path. If unset, `pageURLPath` is set to the file's path with the last file extension removed (if there is one to remove). If unset, `pageOutputPath` is set to `pageURLPath` followed by `.html`. File contents are rendered to `contentOutputPath` without modification and `core/video.njk` is rendered to `pageOutputPath`. |
