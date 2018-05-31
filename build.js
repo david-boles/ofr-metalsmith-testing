@@ -1,18 +1,21 @@
 //Package imports
 var metalsmith = require('metalsmith');
+var metafiles = require('metalsmith-metafiles');
+var livereload = require('metalsmith-livereload');
 var watch = require('metalsmith-watch');
 var serve = require('metalsmith-serve');
-var livereload = require('metalsmith-livereload');
-var fs = require('fs');
-var jsYAML = require('js-yaml');
-var metafiles = require('metalsmith-metafiles');
+var debug = require('metalsmith-debug');
 
 //Local imports
-var utils = require('./src/utils');
-var overrides = require('./src/overrides');
-var indexTerms = require('./src/index_terms');
+var initializeMetadata = require('./plugins/InitializeMetadata');
+var validateBundles = require('./plugins/ValidateBundles');
+var fileOverrides = require('./plugins/FileOverrides');
 
-module.exports.build = function build(devBuild) {
+/**
+ * Start a build.
+ * @param {Boolean} devBuild Whether to run a continuous, local, development build.
+ */
+function build(devBuild) {
   console.log('Building...');
   var startTime = new Date();
   
@@ -22,36 +25,43 @@ module.exports.build = function build(devBuild) {
   .destination('build')
   .clean(true)
 
-  .metadata(utils.getInitialMetadata(devBuild))
-  .use(metafiles({
-    parsers: {
-      ".yml": true,
-      ".yaml": true
-    }
-  }))
-  .use(overrides)
-  .use(indexTerms)
-
-  .use(utils.printMetadata)
-  // .use(utils.printFiles)
+  //Build
+  .use(initializeMetadata(devBuild))
+  .use(validateBundles())
+  .use(metafiles({parsers: {".yml": true}}))
+  .use(fileOverrides());
   
-  //Apply plugins for live development builds
+  //Apply plugins for automated, live-reloading development builds
   if(devBuild) {
     console.log('Starting dev environment...');
+
     ms
-      .use(livereload())
-      .use(watch({
-        paths: {
-          "**/*": "**/*"
-        }
-      }))
-      .use(serve());
+    .use(livereload())
+    .use(watch({paths: {"${source}/**": "**"}}))
+    .use(watch({paths: {"config.yml": "**"}}))
+    .use(serve());
   }
+  
+  ms.use(debug());
 
   //Start build
   ms.build(function(err) {
     if(err) throw err;
-    else console.log('Done! Took ' + utils.getBuildDurationString(startTime) + '.\n');
+    else console.log('Done! Took ' + getBuildDurationString(startTime) + '.\n');
   });
 }
 
+/**
+ * Create a string that describes how long a build took.
+ * @param {Date} startTime when the build was started
+ */
+function getBuildDurationString(startTime) {
+  var timeDiff = (new Date() - startTime);
+  var millis = Math.floor(timeDiff % 1000);
+  var seconds = Math.floor((timeDiff/1000) % 60);
+  var minutes = Math.floor(timeDiff/60000);
+
+  return (minutes ? minutes + 'm ' : '') + (seconds ? seconds + 's ': '') + millis + 'ms';
+}
+
+module.exports.build = build;

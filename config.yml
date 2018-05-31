@@ -7,7 +7,7 @@ bundles:
 - custom
 
 # The base URL where the site will be deployed. Should include a trailing slash.
-baseURL: https://ofr-metalsmith.cyberdro.me/
+productionBaseURL: https://ofr-metalsmith.cyberdro.me/
 
 # baseURL is set to devBaseURL for development builds.
-devBaseURL: https://localhost:8080/
+developmentBaseURL: https://localhost:8080/

@@ -6,6 +6,7 @@
   "dependencies": {
     "js-yaml": "^3.11.0",
     "metalsmith": "^2.3.0",
+    "metalsmith-debug": "^1.2.0",
     "metalsmith-livereload": "^0.1.0",
     "metalsmith-metafiles": "^2.0.0",
     "metalsmith-serve": "0.0.7",
