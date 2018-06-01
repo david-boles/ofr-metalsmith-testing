@@ -11,7 +11,7 @@
 | Clean Types | If set, downcase every file's `type`. If `type` is set but not included in the list below, error. If `type` is unset, set to `undefined`. |
 | Set Output Paths | `contentOutputPath`, `pageOutputPath`, and `pageURLPath` are set for every file based on the table below. |
 | Index Terms | Iterate through files with `type` set to `term` in bundle order. Create a `metadata.terms` object containing an entry for the downcased `termName` attribute if set and entries for every downcased string contained in `termAliases` if set all of which point to the file's path. If both `termName` and `termAliases` are unset, warn to console. If `metadata.terms.<term>` is overriden, log to console and suggest overriding files instead.
-| Render Files | Iterate through files in bundle order, rendering pages with nunjucks and copying over content. Warn to console if an output file is overriden. |
+| Render Files | Iterate through files in bundle order, rendering pages with nunjucks and copying over content. Warn to console if an output file is overriden. The nunjucks environment loads files from metalsmith and contains the global `site`, which contains metalsmith's metadata and files under `metadata` and `files` |
 
 ## Supported Resource Types
 
