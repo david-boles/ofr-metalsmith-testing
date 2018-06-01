@@ -9,7 +9,7 @@
 | Metafiles | Using `metalsmith-metafiles`, put any data specified in `<path>.meta.yml` files into corresponding `<path>` files and delete the `<path>.meta.yml` files. If a corresponding `<path>` file for a `<path>.meta.yml` file does not exist, error. |
 | File Overrides | Iterate through the files in bundle order. If the file specifes a `override` key with a path that is within a bundle that has already been iterated through or is the current bundle, set `files[path]` to the file with an additional `overrideOriginalPath` value and an `overriden` array containing the overriden versions of the files in most original-first (lastest to be overriden-last) order. If the file specifes a `override` key with a path that is within a bundle that is yet to be iterated through, or is not specified, error.
 | Clean Types | If set, downcase every file's `type`. If `type` is set but not included in the list below, error. If `type` is unset, set to `undefined`. |
-| Output Paths | Potentially set `contentOutputPath`, `pageOutputPath`, and `pageURLPath` for every file based on the table below. |
+| Output Paths | `contentOutputPath`, `pageOutputPath`, and `pageURLPath` are set for every file based on the table below. |
 | Index Terms | Iterate through files with `type` set to `term` in bundle order. Create a `metadata.terms` object containing an entry for the downcased `termName` attribute if set and entries for every downcased string contained in `termAliases` if set all of which point to the file's path. If `metadata.terms.<term>` is overriden, log to console and suggest overriding files instead.
 | Render | Render files, potentially with nunjucks, based on the table below. |
 
