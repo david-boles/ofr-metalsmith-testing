@@ -9,7 +9,10 @@ var debug = require('metalsmith-debug');
 //Local imports
 var initializeMetadata = require('./plugins/InitializeMetadata');
 var validateBundles = require('./plugins/ValidateBundles');
-var fileOverrides = require('./plugins/FileOverrides');
+var overrideFiles = require('./plugins/OverrideFiles');
+var cleanTypes = require('./plugins/CleanTypes');
+var setOutputPaths = require('./plugins/SetOutputPaths');
+var indexTerms = require('./plugins/IndexTerms');
 
 /**
  * Start a build.
@@ -29,7 +32,10 @@ function build(devBuild) {
   .use(initializeMetadata(devBuild))
   .use(validateBundles())
   .use(metafiles({parsers: {".yml": true}}))
-  .use(fileOverrides());
+  .use(overrideFiles())
+  .use(cleanTypes())
+  .use(setOutputPaths())
+  .use(indexTerms());
   
   //Apply plugins for automated, live-reloading development builds
   if(devBuild) {
