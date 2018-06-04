@@ -3,7 +3,7 @@ var metalsmith = require('metalsmith');
 var metafiles = require('metalsmith-metafiles');
 var livereload = require('metalsmith-livereload');
 var watch = require('metalsmith-watch');
-var serve = require('metalsmith-serve');
+// var serve = require('metalsmith-serve');
 var debug = require('metalsmith-debug');
 
 //Local imports
@@ -13,6 +13,8 @@ var overrideFiles = require('./plugins/OverrideFiles');
 var cleanTypes = require('./plugins/CleanTypes');
 var setOutputPaths = require('./plugins/SetOutputPaths');
 var indexTerms = require('./plugins/IndexTerms');
+var renderFiles = require('./plugins/RenderFiles');
+var serve = require('./plugins/Serve');
 
 /**
  * Start a build.
@@ -35,7 +37,9 @@ function build(devBuild) {
   .use(overrideFiles())
   .use(cleanTypes())
   .use(setOutputPaths())
-  .use(indexTerms());
+  .use(indexTerms())
+  .use(renderFiles())
+  .use(debug())
   
   //Apply plugins for automated, live-reloading development builds
   if(devBuild) {
@@ -44,11 +48,8 @@ function build(devBuild) {
     ms
     .use(livereload())
     .use(watch({paths: {"${source}/**": "**"}}))
-    .use(watch({paths: {"config.yml": "**"}}))
     .use(serve());
   }
-  
-  ms.use(debug());
 
   //Start build
   ms.build(function(err) {

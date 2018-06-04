@@ -9,5 +9,8 @@ bundles:
 # The base URL where the site will be deployed. Should include a trailing slash.
 productionBaseURL: https://ofr-metalsmith.cyberdro.me/
 
-# baseURL is set to devBaseURL for development builds.
-developmentBaseURL: https://localhost:8080/
+# baseURL is set to developmentBaseURL for development builds.
+developmentBaseURL: http://localhost:8080/
+
+# The port on which to serve the development server. If you change this, you probably also have to change developmentBaseURL.
+developmentPort: 8080

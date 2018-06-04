@@ -15,7 +15,7 @@ function setOutputPaths(files, metalsmith, done) {
         setStandard(path, file);
         break;
       case 'document':
-      debug('type: document');
+        debug('type: document');
         setStandard(path, file);
         break;
       case 'term':
@@ -27,7 +27,7 @@ function setOutputPaths(files, metalsmith, done) {
         setMedia(path, file);
         break;
       case 'video':
-        debug('type: image');
+        debug('type: video');
         setMedia(path, file);
         break;
       default:
@@ -46,20 +46,24 @@ function setOutputPaths(files, metalsmith, done) {
 
 function setStandard(path, file) {
   delete file.contentOutputPath;
-  if(!file.pageURLPath) {
-    file.pageURLPath = removeLastExtension(path);
+  if(!file.pageOutputPath) {
+    file.pageOutputPath = removeLastExtension(path) + '.html';
   }
-  file.pageOutputPath = file.pageURLPath + '.html';
+  if(!file.pageURLPath) {
+    file.pageURLPath = removeLastExtension(file.pageOutputPath);
+  }
 }
 
 function setMedia(path, file) {
   if(!file.contentOutputPath) {
     file.contentOutputPath = path;
   }
-  if(!file.pageURLPath) {
-    file.pageURLPath = removeLastExtension(path);
+  if(!file.pageOutputPath) {
+    file.pageOutputPath = removeLastExtension(path) + '.html';
   }
-  file.pageOutputPath = file.pageURLPath + '.html';
+  if(!file.pageURLPath) {
+    file.pageURLPath = removeLastExtension(file.pageOutputPath);
+  }
 }
 
 function removeLastExtension(path) {
